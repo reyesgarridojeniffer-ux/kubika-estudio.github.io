@@ -264,8 +264,7 @@
               <span class="ticker-line"><span class="t-pill r">mueve negocios.</span></span>
               <span class="ticker-line"><span class="t-pill y">organiza ideas.</span></span>
               <span class="ticker-line"><span class="t-pill b">construye marcas.</span></span>
-              <span class="ticker-line"><span class="t-pill g">hace crecer tu negocio.</span></span>
-              <span class="ticker-line"><span class="t-pill r">mueve negocios.</span></span>
+              <span class="ticker-line"><span class="t-pill g">hace crecer tu emprendimiento.</span></span>
             </span>
           </span>
         </span>
@@ -398,7 +397,7 @@
 const slot  = document.getElementById("tickerSlot");
 const track = document.getElementById("tickerTrack");
 const lines = Array.from(track.querySelectorAll(".ticker-line"));
-let idx = 0, lh = 0;
+let lh = 0;
 
 function setupTicker(){
   // Measure real rendered line height
@@ -431,21 +430,17 @@ function setupTicker(){
 }
 
 function tickNext(){
-  idx++;
-  if(idx >= lines.length - 1){
-    // Animate to clone (last item = clone of first)
-    track.style.transition = "transform .6s cubic-bezier(.76,0,.24,1)";
-    track.style.transform  = "translateY(-" + (idx * lh) + "px)";
-    // After animation, snap back to index 0 silently
-    setTimeout(()=>{
-      track.style.transition = "none";
-      idx = 0;
-      track.style.transform = "translateY(0)";
-    }, 650);
-  } else {
-    track.style.transition = "transform .6s cubic-bezier(.76,0,.24,1)";
-    track.style.transform  = "translateY(-" + (idx * lh) + "px)";
-  }
+  // Slide up one line, then move the line that just left to the end of the
+  // track and reset the offset. The visible line never changes during the
+  // reset, so the loop is continuous without a duplicate element.
+  track.style.transition = "transform .6s cubic-bezier(.76,0,.24,1)";
+  track.style.transform  = "translateY(-" + lh + "px)";
+  setTimeout(()=>{
+    track.style.transition = "none";
+    track.appendChild(track.firstElementChild);
+    track.style.transform = "translateY(0)";
+    void track.offsetHeight; // commit the reset before the next transition
+  }, 650);
 }
 
 // Wait for fonts to load, then setup
