@@ -215,6 +215,23 @@
       footer{flex-direction:column;align-items:flex-start;}
       .msg-card{font-size:.75rem;padding:.4rem .8rem;}
     }
+    @media(max-width:768px){
+      /* General: margen lateral uniforme */
+      .hero,.services-wrap,.bento-wrap,.process-wrap,.contact-wrap,footer{padding-left:1.2rem;padding-right:1.2rem;}
+      /* Hero: menos espacio entre el cubo y el texto */
+      .hero{gap:.5rem;padding-top:calc(70px + 1rem);}
+      .hero-right{padding:0;}
+      .hero-left{padding:0 0 1rem;}
+      .cube-stage{height:260px;}
+      /* Servicios */
+      .svc-card{padding:1.5rem;}
+      /* Bento: una columna */
+      .bento-wrap h2{font-size:clamp(1.25rem,5.6vw,2rem);text-wrap:balance;}
+      .bento-grid{grid-template-columns:1fr;}
+      .bc.span2{grid-column:auto;}
+      /* Proceso: una columna */
+      .process-steps{grid-template-columns:1fr;}
+    }
     @media(prefers-reduced-motion:reduce){
       .cube-img,.marquee-track,.wobble-svg{animation:none!important;}
       .msg-card{transition:none!important;}
