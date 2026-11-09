@@ -126,7 +126,7 @@
 
     /* SERVICES */
     .services-wrap{max-width:1300px;margin:0 auto;padding:7rem 5vw 4rem;}
-    .section-head{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;flex-wrap:wrap;gap:1rem;}
+    .section-head{display:flex;flex-direction:column;align-items:flex-start;text-align:left;margin-bottom:3rem;gap:1rem;}
     .section-head h2{font-family:"Nunito",sans-serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:900;letter-spacing:-.025em;line-height:1.1;}
     .section-head p{max-width:38ch;color:var(--soft);font-size:1rem;line-height:1.65;}
     .services-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;}
@@ -155,15 +155,9 @@
     .bc .big-desc{font-size:.85rem;opacity:.72;margin-top:.4rem;line-height:1.5;}
     .bc .ct{font-family:"Nunito",sans-serif;font-size:1.3rem;font-weight:900;letter-spacing:-.02em;margin-bottom:.6rem;}
     .bc .cb{font-size:.875rem;opacity:.85;line-height:1.6;}
-    .bc-icon{font-size:2.4rem;display:block;margin-bottom:1rem;}
-    .bento-cube-scene{perspective:200px;width:90px;height:90px;margin:.5rem auto 1.25rem;}
-    .bento-cube3d{width:90px;height:90px;position:relative;transform-style:preserve-3d;animation:rotateCube 8s linear infinite;}
-    @keyframes rotateCube{from{transform:rotateX(-25deg) rotateY(0)}to{transform:rotateX(-25deg) rotateY(360deg)}}
-    .bf{position:absolute;width:90px;height:90px;display:grid;grid-template-columns:repeat(3,1fr);gap:3px;padding:3px;border:2.5px solid rgba(0,0,0,.3);border-radius:8px;}
-    .bf span{border-radius:3px;background:rgba(255,255,255,.2);border:1px solid rgba(0,0,0,.12);}
-    .bf.bfront{transform:translateZ(45px);background:var(--red);} .bf.bback{transform:rotateY(180deg) translateZ(45px);background:var(--orange);}
-    .bf.bright{transform:rotateY(90deg) translateZ(45px);background:var(--blue);} .bf.bleft{transform:rotateY(-90deg) translateZ(45px);background:var(--green);}
-    .bf.btop{transform:rotateX(90deg) translateZ(45px);background:var(--yellow);} .bf.bbottom{transform:rotateX(-90deg) translateZ(45px);background:#fff;}
+    .bc-icon{display:block;width:44px;height:44px;margin-bottom:1rem;}
+    .bc-icon svg{width:100%;height:100%;display:block;}
+    .bc.tall .bc-icon{width:72px;height:72px;margin:.5rem 0 1.25rem;}
 
     /* PROCESS */
     .process-wrap{background:var(--ink);padding:7rem 5vw;}
@@ -222,7 +216,7 @@
       .msg-card{font-size:.75rem;padding:.4rem .8rem;}
     }
     @media(prefers-reduced-motion:reduce){
-      .cube-img,.bento-cube3d,.marquee-track,.wobble-svg{animation:none!important;}
+      .cube-img,.marquee-track,.wobble-svg{animation:none!important;}
       .msg-card{transition:none!important;}
     }
   </style>
@@ -319,24 +313,17 @@
 </div>
 
 <div class="bento-wrap" id="nosotros">
-  <h2>Por qué trabajar<br>con Kúbika</h2>
+  <h2>Por qué trabajar con Kúbika</h2>
   <div class="bento-grid">
-    <div class="bc c-red span2"><span class="bc-icon">🚀</span><div class="ct">Resultados desde el primer día</div><div class="cb">Desde la primera semana ya tienes piezas funcionando que generan impacto real en tu negocio.</div></div>
+    <div class="bc c-red span2"><span class="bc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="M12 15l-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></span><div class="ct">Resultados desde el primer día</div><div class="cb">Desde la primera semana ya tienes piezas funcionando que generan impacto real en tu negocio.</div></div>
     <div class="bc c-yellow tall">
-      <div class="bento-cube-scene"><div class="bento-cube3d">
-        <div class="bf bfront"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="bf bback"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="bf bright"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="bf bleft"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="bf btop"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-        <div class="bf bbottom"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
-      </div></div>
+      <span class="bc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="7" r="4"/><path d="M2 21v-2a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v2"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/></svg></span>
       <div class="ct">Todo en un solo equipo</div><div class="cb">Diseño, web y redes coordinados desde un mismo lugar. Sin malentendidos entre equipos distintos.</div>
     </div>
     <div class="bc c-blue"><div class="big-num">100%</div><div class="big-lbl">Comunicación directa</div><div class="big-desc">Hablas con quien hace tu proyecto, no con un intermediario.</div></div>
     <div class="bc c-white"><div class="big-num">24h</div><div class="big-lbl">Tiempo de respuesta</div><div class="big-desc">Te respondemos antes de un día. Siempre.</div></div>
-    <div class="bc c-green"><span class="bc-icon">💰</span><div class="ct">Precios justos</div><div class="cb">Calidad de agencia sin el precio de agencia.</div></div>
-    <div class="bc c-orange"><span class="bc-icon">🤝</span><div class="ct">Entregas a tiempo</div><div class="cb">Respetamos los plazos. Tu negocio no puede esperar.</div></div>
+    <div class="bc c-green"><span class="bc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><circle cx="7" cy="7" r="1.5"/></svg></span><div class="ct">Precios justos</div><div class="cb">Calidad de agencia sin el precio de agencia.</div></div>
+    <div class="bc c-orange"><span class="bc-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span><div class="ct">Entregas a tiempo</div><div class="cb">Respetamos los plazos. Tu negocio no puede esperar.</div></div>
   </div>
 </div>
 
