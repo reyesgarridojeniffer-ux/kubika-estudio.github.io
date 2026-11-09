@@ -22,7 +22,7 @@
       --r:      20px;
     }
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
-    html{scroll-behavior:smooth;}
+    html{scroll-behavior:smooth;overflow-x:hidden;}
     body{font-family:"Inter",sans-serif;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
 
     /* NAV */
@@ -51,11 +51,12 @@
       position:relative;
       /* height set by JS */
     }
+    .ticker-slot.wrap .t-pill{white-space:normal;}
     .ticker-track{
       display:flex;
       flex-direction:column;
       position:absolute;
-      top:0; left:0;
+      top:0; left:0; width:100%;
       transition:transform .6s cubic-bezier(.76,0,.24,1);
     }
     .ticker-line{
@@ -203,6 +204,7 @@
     @media(max-width:900px){
       .hero{grid-template-columns:1fr;text-align:center;padding-top:calc(70px + 2rem);min-height:auto;padding-bottom:3rem;}
       .hero-left p{max-width:100%;} .hero-actions{justify-content:center;}
+      .ticker-line{justify-content:center;}
       .hero-right{order:-1;} .cube-stage{width:300px;height:300px;}
       .cube-img{width:240px;height:240px;}
       .nav-links{display:none;}
@@ -222,7 +224,9 @@
       .hero{gap:.5rem;padding-top:calc(70px + 1rem);}
       .hero-right{padding:0;}
       .hero-left{padding:0 0 1rem;}
-      .cube-stage{height:260px;}
+      .cube-stage{height:260px;width:100%;max-width:300px;}
+      .hero-h1{font-size:clamp(2rem,9vw,2.6rem);}
+      .footer-links{flex-wrap:wrap;gap:1rem 1.5rem;}
       /* Servicios */
       .svc-card{padding:1.5rem;}
       /* Bento: una columna */
@@ -403,35 +407,39 @@ const track = document.getElementById("tickerTrack");
 const lines = Array.from(track.querySelectorAll(".ticker-line"));
 let lh = 0;
 
-function setupTicker(){
-  // Measure real rendered line height
-  lh = lines[0].getBoundingClientRect().height;
-  if(lh === 0){ setTimeout(setupTicker, 50); return; }
+let tickerStarted = false;
+function measureTicker(){
+  // Reset to natural (single-line) size before measuring
+  slot.classList.remove("wrap");
+  slot.style.width = slot.style.height = "";
+  lines.forEach(l => { l.style.height = ""; });
 
-  // Set each line's height explicitly
-  lines.forEach(l => { l.style.height = lh + "px"; });
-
-  // Measure widest pill
+  // Widest pill, capped to the width available in the headline so the
+  // ticker never pushes the page wider than the screen on mobile
   let maxW = 0;
   lines.forEach(l => { const w = l.querySelector(".t-pill").getBoundingClientRect().width; if(w > maxW) maxW = w; });
+  const avail = slot.closest(".hero-h1").clientWidth;
+  if(maxW + 2 > avail){ slot.classList.add("wrap"); maxW = avail - 2; }
+  slot.style.width = (maxW + 2) + "px"; // +2 for sub-pixel safety
 
-  // Size the slot: exact height of one line, exact width of widest pill + padding
-  slot.style.height   = lh + "px";
-  slot.style.width    = (maxW + 2) + "px"; // +2 for sub-pixel safety
-  slot.style.overflow = "hidden";
-  slot.style.display  = "inline-block";
-  slot.style.verticalAlign = "bottom";
-  slot.style.position = "relative";
-
-  // Position track inside slot
-  track.style.position = "absolute";
-  track.style.top  = "0";
-  track.style.left = "0";
-  track.style.width = "100%";
-
-  // Start interval
-  setInterval(tickNext, 3000);
+  // Tallest line (a pill may wrap to two lines on narrow screens)
+  lh = 0;
+  lines.forEach(l => { const h = l.getBoundingClientRect().height; if(h > lh) lh = h; });
+  lh = Math.ceil(lh); // whole pixels so the next line never peeks into the slot
+  lines.forEach(l => { l.style.height = lh + "px"; });
+  slot.style.height = lh + "px";
+  track.style.transition = "none";
+  track.style.transform = "translateY(0)";
 }
+
+function setupTicker(){
+  if(lines[0].getBoundingClientRect().height === 0){ setTimeout(setupTicker, 50); return; }
+  measureTicker();
+  if(!tickerStarted){ tickerStarted = true; setInterval(tickNext, 3000); }
+}
+
+let tickerResize;
+window.addEventListener("resize", () => { clearTimeout(tickerResize); tickerResize = setTimeout(measureTicker, 150); });
 
 function tickNext(){
   // Slide up one line, then move the line that just left to the end of the
